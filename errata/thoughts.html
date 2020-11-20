@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SST Overview &#8212; Adding Phase Analysis to SST</title>
+    <title>Problems &#8212; Adding Phase Analysis to SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SST’s MemHierarchy Library" href="memhierarchy.html" />
-    <link rel="prev" title="Working-Set Based Phase Analysis" href="../phase/dhodapkar.html" />
+    <link rel="prev" title="SST’s MemHierarchy Library" href="../sst/memhierarchy.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -117,14 +116,14 @@
   SST
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/overview.html">
    SST Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="memhierarchy.html">
+  <a class="reference internal" href="../sst/memhierarchy.html">
    SST’s MemHierarchy Library
   </a>
  </li>
@@ -134,10 +133,10 @@
   Errata
  </span>
 </p>
-<ul class="nav sidenav_l1">
- <li class="toctree-l1">
-  <a class="reference internal" href="../errata/pdlag.html">
-   Phase Detection Lag
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Problems
   </a>
  </li>
 </ul>
@@ -180,7 +179,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/sst/overview.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/errata/thoughts.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -200,7 +199,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fsst/overview.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Ferrata/thoughts.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -221,6 +220,44 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#phase-detection-lag">
+   Phase Detection Lag
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#potential-solutions">
+     Potential Solutions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#checkpoint-restart">
+       Checkpoint-Restart
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#phase-prediction">
+       Phase prediction
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#run-ahead-phase-detection">
+       Run-ahead Phase Detection
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -228,9 +265,39 @@
         
               <div>
                 
-  <div class="section" id="sst-overview">
-<h1>SST Overview<a class="headerlink" href="#sst-overview" title="Permalink to this headline">¶</a></h1>
-<p>This page will give a brief description of how SST works.</p>
+  <div class="section" id="problems">
+<h1>Problems<a class="headerlink" href="#problems" title="Permalink to this headline">¶</a></h1>
+<p>A collection of various ideas that should be addressed in our work</p>
+<div class="section" id="phase-detection-lag">
+<h2>Phase Detection Lag<a class="headerlink" href="#phase-detection-lag" title="Permalink to this headline">¶</a></h2>
+<p><em>Phase detection lag</em> occurs when a a component is notified of a phase change one interval after the phase has actually ended. This occurs because the phase detector is unable to report on the current phase until the interval is ended so it can generate a signature and classify it. This is an issue for model swapping: although we can hold off on training models until the end of a phase when we know what phase we were in, we cannot do the same when a model is already swapped. This means that when we are running with a swapped model, the interval after the end of a phase will be run with a model trained for the phase that just ended, instead of the proper model.</p>
+<div class="section" id="potential-solutions">
+<h3>Potential Solutions<a class="headerlink" href="#potential-solutions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="checkpoint-restart">
+<h4>Checkpoint-Restart<a class="headerlink" href="#checkpoint-restart" title="Permalink to this headline">¶</a></h4>
+<p>We can checkpoint the simulation at the end of every interval, and rollback if we find out that we ran with the wrong model. In a simulation environment with an intelligent checkpoint restart mechanism, we may be able
+to only redo computation that depended on components that were rolled back. However, I don’t believe SST supports this, and and I think that even with this in place, the overhead would be large for simulations with short phases. We would have to rollback everytime a phase ended, essentially.</p>
+</div>
+<div class="section" id="phase-prediction">
+<h4>Phase prediction<a class="headerlink" href="#phase-prediction" title="Permalink to this headline">¶</a></h4>
+<p>Phase prediction involves predicting what the next interval will be classified as before it is run. This can be thought of as two separate problems: (1) how long will the current phase run for, and (2) what will be the next phase that runs. There are two ways this could help alleveiate the problem:</p>
+<ul class="simple">
+<li><p>We could implement phase prediction on its own. With a high enough percentage of correct predictions, we would not be running the wrong model as frequently, which would improve the accuracy of our simulation.</p></li>
+<li><p>We could impelement phase prediction in addition to checkpoint restart. Correct predictions would mean that we would alleviate the need for a rollback on correctly predicted phase endings. It does not alleviate the need to checkpoint at every interval though, as we may mispredict a phase ending and still need to rollback.</p></li>
+</ul>
+</div>
+<div class="section" id="run-ahead-phase-detection">
+<h4>Run-ahead Phase Detection<a class="headerlink" href="#run-ahead-phase-detection" title="Permalink to this headline">¶</a></h4>
+<p>We could move the phase prediction earlier in the simulation, and have it run one interval ahead of the rest of the simulation. This would mean that the phase detector could send perfect phase information to listeners.</p>
+<p>This is not a silver bullet though. Drawbacks include:</p>
+<ul class="simple">
+<li><p>If the phase detector is run before the simulation of an interval, it will only have access to data from the program trace it is reading. Some approaches to phase detection using things like branch mispredictions as part of their classification criteria, which would not be available to us.</p></li>
+<li><p>Speaking of program traces, this approach will hurt the generality of our implementation, as it will assume that it has access to a program trace, which is not true if the core is simulating the code itself, as opposed to replaying a trace it is given.</p></li>
+<li><p>Finally, we can’t forget that online phase detection has application in hardware. If we want our approach to work in this area, it can’t have magic knowledge of the future.</p></li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -246,7 +313,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./sst"
+            path: "./errata"
         },
         predefinedOutput: true
     }
@@ -261,8 +328,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../phase/dhodapkar.html" title="previous page">Working-Set Based Phase Analysis</a>
-    <a class='right-next' id="next-link" href="memhierarchy.html" title="next page">SST’s MemHierarchy Library</a>
+    <a class='left-prev' id="prev-link" href="../sst/memhierarchy.html" title="previous page">SST’s MemHierarchy Library</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

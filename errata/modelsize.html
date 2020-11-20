@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SST Overview &#8212; Adding Phase Analysis to SST</title>
+    <title>Model Size &#8212; Adding Phase Analysis to SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SST’s MemHierarchy Library" href="memhierarchy.html" />
-    <link rel="prev" title="Working-Set Based Phase Analysis" href="../phase/dhodapkar.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -117,14 +115,14 @@
   SST
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/overview.html">
    SST Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="memhierarchy.html">
+  <a class="reference internal" href="../sst/memhierarchy.html">
    SST’s MemHierarchy Library
   </a>
  </li>
@@ -136,7 +134,7 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../errata/pdlag.html">
+  <a class="reference internal" href="pdlag.html">
    Phase Detection Lag
   </a>
  </li>
@@ -180,7 +178,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/sst/overview.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/errata/modelsize.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -200,7 +198,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fsst/overview.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Ferrata/modelsize.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -221,6 +219,20 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#potential-approaches">
+   Potential Approaches
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -228,9 +240,17 @@
         
               <div>
                 
-  <div class="section" id="sst-overview">
-<h1>SST Overview<a class="headerlink" href="#sst-overview" title="Permalink to this headline">¶</a></h1>
-<p>This page will give a brief description of how SST works.</p>
+  <div class="section" id="model-size">
+<h1>Model Size<a class="headerlink" href="#model-size" title="Permalink to this headline">¶</a></h1>
+<p>Model size must be carefullly accounted for in the analysis of our work. While a single phase can be represented by a simple model, we have a separate model for each phase, and not only that, we initially train multiple models for each phase. This means that unless our models are substantially smaller, we will probably end up using more space for our models that the base model would use.</p>
+<p>So, is this a problem? I do not fully understand how much memory a single rank of SST currenly uses. If it is does not need much state, then it may be ok to increase the state size by a small constant factor. But this is certainly something we need to both track, and present in our final work.</p>
+<div class="section" id="potential-approaches">
+<h2>Potential Approaches<a class="headerlink" href="#potential-approaches" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>We may find that the trade-off is worth it: if our statistical models are substantially faster, the memory trade off may be worth it.</p></li>
+<li><p>If we find the trade-off is not worth it, we must choose simpler models, or train fewer models.</p></li>
+</ol>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -246,7 +266,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./sst"
+            path: "./errata"
         },
         predefinedOutput: true
     }
@@ -261,8 +281,6 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../phase/dhodapkar.html" title="previous page">Working-Set Based Phase Analysis</a>
-    <a class='right-next' id="next-link" href="memhierarchy.html" title="next page">SST’s MemHierarchy Library</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
