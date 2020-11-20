@@ -5,7 +5,12 @@
 
 #######################################################################################
 # Book settings
-title                       : "Computer Architecture: A Hands-On Approach"  # The title of the book. Will be placed in the left navbar.
+title                       : "Adding Phase Analysis to SST"  # The title of the book. Will be placed in the left navbar.
 author                      : Patrick Lavin  # The author of the book
 copyright                   : "2020"  # Copyright year to be placed in the footer
 logo                        : logo.png  # A path to the book logo
+repository:
+  url: https://github.com/plavin/comp_arch_book
+html:
+  use_repository_button: true
+  use_issues_button: true

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Computer Architecture: A Hands-On Approach &#8212; Computer Architecture: A Hands-On Approach</title>
+    <title>Adding Phase Analysis to SST &#8212; Adding Phase Analysis to SST</title>
     
   <link rel="stylesheet" href="_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,7 +57,7 @@
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Content in Jupyter Book" href="content.html" />
+    <link rel="next" title="Intro to Phase Analysis" href="phase/intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -79,7 +79,7 @@
   <img src="_static/logo.png" class="logo" alt="logo">
   
   
-  <h1 class="site-logo" id="site-title">Computer Architecture: A Hands-On Approach</h1>
+  <h1 class="site-logo" id="site-title">Adding Phase Analysis to SST</h1>
   
 </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -90,29 +90,42 @@
     <ul class="nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="reference internal" href="#">
-   Computer Architecture: A Hands-On Approach
+   Adding Phase Analysis to SST
   </a>
  </li>
 </ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Phase Analysis
+ </span>
+</p>
 <ul class="nav sidenav_l1">
- <li class="toctree-l1 collapsible-parent">
-  <a class="reference internal" href="content.html">
-   Content in Jupyter Book
+ <li class="toctree-l1">
+  <a class="reference internal" href="phase/intro.html">
+   Intro to Phase Analysis
   </a>
-  <ul class="collapse-ul">
-   <li class="toctree-l2">
-    <a class="reference internal" href="markdown.html">
-     Markdown Files
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="notebooks.html">
-     Content with notebooks
-    </a>
-   </li>
-  </ul>
-  <i class="fas fa-chevron-down">
-  </i>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="phase/dhodapkar.html">
+   Working-Set Based Phase Analysis
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  SST
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sst/overview.html">
+   SST Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sst/memhierarchy.html">
+   SST’s MemHierarchy Library
+  </a>
  </li>
 </ul>
 
@@ -165,6 +178,22 @@
 
         <!-- Source interaction buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/plavin/comp_arch_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
 
         <!-- Full screen (wrap in <a> to have style consistency -->
         <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
@@ -179,6 +208,44 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#goals">
+   Goals
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#code-deliverables">
+     Code Deliverables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#research-deliverables">
+     Research Deliverables
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#enabled-research">
+     Enabled Research
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+  <ul class="nav section-nav flex-column">
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -186,12 +253,51 @@
         
               <div>
                 
-  <div class="section" id="computer-architecture-a-hands-on-approach">
-<h1>Computer Architecture: A Hands-On Approach<a class="headerlink" href="#computer-architecture-a-hands-on-approach" title="Permalink to this headline">¶</a></h1>
-<p>Computer architecture is the study of how computers are architected.</p>
-<p>This book will take a hands-on appraoch, with examples taking advantage of the Structural Simulation Toolkit (SST).</p>
-<p>This is a living documnent: while we don’t expect the early chapters on basic topics to change frequently, we intend to continuously add new chapters and sections as components are added to SST.</p>
+  <div class="section" id="adding-phase-analysis-to-sst">
+<h1>Adding Phase Analysis to SST<a class="headerlink" href="#adding-phase-analysis-to-sst" title="Permalink to this headline">¶</a></h1>
+<p>This book will explain how we added phase analysis tools to the Structural Simulation Toolkit.</p>
+<div class="section" id="goals">
+<h2>Goals<a class="headerlink" href="#goals" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="code-deliverables">
+<h3>Code Deliverables<a class="headerlink" href="#code-deliverables" title="Permalink to this headline">¶</a></h3>
+<p>We have two main code deliverables to our project which will be implemented for/in SST.</p>
+<ol class="simple">
+<li><p>Add a phase analysis component that is able to send notifications to listeners about phases. These messages may include</p>
+<ul class="simple">
+<li><p>New phases</p></li>
+<li><p>Phase changes</p></li>
+<li><p>Phase change predictions</p></li>
+</ul>
+</li>
+<li><p>Create a tool that can take the phases that are identified and translate this back into code in the original source file.</p></li>
+</ol>
+</div>
+<div class="section" id="research-deliverables">
+<h3>Research Deliverables<a class="headerlink" href="#research-deliverables" title="Permalink to this headline">¶</a></h3>
+<p>With a sutiable interface for phase detection implemented in SST, we will enable several studies to be performed:</p>
+<ol class="simple">
+<li><p>A comparitive study of online phase analysis techniques</p></li>
+<li><p>A study of the kernels within different apps that stand out performance wise</p></li>
+</ol>
+</div>
+<div class="section" id="enabled-research">
+<h3>Enabled Research<a class="headerlink" href="#enabled-research" title="Permalink to this headline">¶</a></h3>
+<ol class="simple">
+<li><p>A suitable phase detection component is required to implement our model swapping work in SST</p></li>
+<li><p>A suitable phase to code translator will enable us to auto generate benchmarks for Spatter.</p></li>
+</ol>
+</div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<p>Formal Definition of Phase Analysis</p>
+<p>SST’s Website</p>
+<p>SST-core Github</p>
+<p>SST-components Github</p>
 <div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
 </div>
 </div>
 
@@ -223,7 +329,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='right-next' id="next-link" href="content.html" title="next page">Content in Jupyter Book</a>
+    <a class='right-next' id="next-link" href="phase/intro.html" title="next page">Intro to Phase Analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
