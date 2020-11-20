@@ -1,7 +1,7 @@
-Adding Phase Analysis to SST
+Phase Analysis in SST
 ============================
 
-This book will explain how we added phase analysis tools to the Structural Simulation Toolkit.
+This book will explain how we're phase analysis tools to the Structural Simulation Toolkit.
 
 ## Goals
 

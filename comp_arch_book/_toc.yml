@@ -9,3 +9,7 @@
   chapters:
     - file: sst/overview
     - file: sst/memhierarchy
+- part: Errata
+  chapters:
+    - file: errata/pdlag
+    - file: errata/modelsize
