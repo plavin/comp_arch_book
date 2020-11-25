@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro to Phase Analysis &#8212; Phase Analysis in SST</title>
+    <title>Phase Analysis &#8212; Phase Analysis in SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,7 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working-Set Based Phase Analysis" href="dhodapkar.html" />
-    <link rel="prev" title="Phase Analysis in SST" href="../intro.html" />
+    <link rel="prev" title="Benchmarking" href="benchmarking.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -100,14 +99,14 @@
   Phase Analysis
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../phase/intro.html">
    Intro to Phase Analysis
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dhodapkar.html">
+  <a class="reference internal" href="../phase/dhodapkar.html">
    Working-Set Based Phase Analysis
   </a>
  </li>
@@ -161,19 +160,19 @@
   Papers
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../papers/simulation.html">
+  <a class="reference internal" href="simulation.html">
    Simulation
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../papers/benchmarking.html">
+  <a class="reference internal" href="benchmarking.html">
    Benchmarking
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../papers/phaseanalysis.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Phase Analysis
   </a>
  </li>
@@ -217,7 +216,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/phase/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/papers/phaseanalysis.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -237,7 +236,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fphase/intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fpapers/phaseanalysis.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -258,6 +257,39 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#formal-definition">
+   Formal Definition
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overview">
+     Overview
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#dhodapkar">
+   Dhodapkar
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Overview
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -265,9 +297,29 @@
         
               <div>
                 
-  <div class="section" id="intro-to-phase-analysis">
-<h1>Intro to Phase Analysis<a class="headerlink" href="#intro-to-phase-analysis" title="Permalink to this headline">¶</a></h1>
-<p>We will introduce the formal problem of phase detection as described by Hind et. al., and explain the uses of this concept.</p>
+  <div class="section" id="phase-analysis">
+<h1>Phase Analysis<a class="headerlink" href="#phase-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="formal-definition">
+<h2>Formal Definition<a class="headerlink" href="#formal-definition" title="Permalink to this headline">¶</a></h2>
+<p><strong>Title</strong>: Phase shift detection: A problem classification</p>
+<p><strong>First Author</strong>: Michael J. Hind</p>
+<p><strong>Link</strong>: <a class="reference external" href="https://researcher.watson.ibm.com/researcher/view_person_pubs.php?person=us-hindm&amp;t=1">IBM Research</a></p>
+<p><strong>Link</strong>: <a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.4.5986">CiteSeerX</a></p>
+<div class="section" id="overview">
+<h3>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h3>
+<p>This paper presents a formal definition of the problem of phase detection.</p>
+</div>
+</div>
+<div class="section" id="dhodapkar">
+<h2>Dhodapkar<a class="headerlink" href="#dhodapkar" title="Permalink to this headline">¶</a></h2>
+<p><strong>Tile</strong>: Managing multi-configuration hardware via dynamic working set analysis</p>
+<p><strong>First Author</strong>: A. S. Dhodapkar</p>
+<p><strong>Link</strong>: <a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/1003581">IEEE Xplore</a></p>
+<div class="section" id="id1">
+<h3>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Dhodapkar presets a simple working-set based phase detection algorithm.</p>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -283,7 +335,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./phase"
+            path: "./papers"
         },
         predefinedOutput: true
     }
@@ -298,8 +350,7 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Phase Analysis in SST</a>
-    <a class='right-next' id="next-link" href="dhodapkar.html" title="next page">Working-Set Based Phase Analysis</a>
+    <a class='left-prev' id="prev-link" href="benchmarking.html" title="previous page">Benchmarking</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

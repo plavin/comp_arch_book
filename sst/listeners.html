@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro to Phase Analysis &#8212; Phase Analysis in SST</title>
+    <title>Cache Listeners &#8212; Phase Analysis in SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working-Set Based Phase Analysis" href="dhodapkar.html" />
-    <link rel="prev" title="Phase Analysis in SST" href="../intro.html" />
+    <link rel="next" title="Phase Detection Lag" href="../errata/pdlag.html" />
+    <link rel="prev" title="MemEvent objects" href="memevent.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -100,14 +100,14 @@
   Phase Analysis
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../phase/intro.html">
    Intro to Phase Analysis
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dhodapkar.html">
+  <a class="reference internal" href="../phase/dhodapkar.html">
    Working-Set Based Phase Analysis
   </a>
  </li>
@@ -117,24 +117,24 @@
   SST
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/overview.html">
+  <a class="reference internal" href="overview.html">
    SST Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memhierarchy.html">
+  <a class="reference internal" href="memhierarchy.html">
    SST’s MemHierarchy Library
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memevent.html">
+  <a class="reference internal" href="memevent.html">
    MemEvent objects
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sst/listeners.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Cache Listeners
   </a>
  </li>
@@ -217,7 +217,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/phase/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/sst/listeners.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -237,7 +237,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fphase/intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fsst/listeners.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -265,9 +265,55 @@
         
               <div>
                 
-  <div class="section" id="intro-to-phase-analysis">
-<h1>Intro to Phase Analysis<a class="headerlink" href="#intro-to-phase-analysis" title="Permalink to this headline">¶</a></h1>
-<p>We will introduce the formal problem of phase detection as described by Hind et. al., and explain the uses of this concept.</p>
+  <div class="section" id="cache-listeners">
+<h1>Cache Listeners<a class="headerlink" href="#cache-listeners" title="Permalink to this headline">¶</a></h1>
+<p>SST caches allow objects to register as listeners, so that they recieve information on what the cache is doing. Currently, listeners are things like profilers, analyzers, and prefetchers. We should check out what that interface looks like. It is specified in cacheListener.h [<a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/master/src/sst/elements/memHierarchy/cacheListener.h">source</a>].</p>
+<p>Here is the information contained in CacheListenerNotification, which is the type of object sent from Caches to CacheListeners:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>    <span class="kt">uint32_t</span> <span class="n">size</span><span class="p">;</span>
+    <span class="n">Addr</span> <span class="n">targAddr</span><span class="p">;</span>
+    <span class="n">Addr</span> <span class="n">physAddr</span><span class="p">;</span>
+    <span class="n">Addr</span> <span class="n">virtAddr</span><span class="p">;</span>
+    <span class="n">Addr</span> <span class="n">instPtr</span><span class="p">;</span>
+    <span class="n">NotifyAccessType</span> <span class="n">access</span><span class="p">;</span>
+    <span class="n">NotifyResultType</span> <span class="n">result</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>As you can see, this is a rather limited amount of information, but it is enough for basic phase analysis, which sometimes requires only the instruction pointer.</p>
+<p>Questions:</p>
+<ol class="simple">
+<li><p>So when are these generated?</p></li>
+<li><p>If we register as a listner to the L1 cache, will we be informed of every cache access?</p></li>
+<li><p>What about prefetches, are those included?</p></li>
+<li><p>Can we register multiple listeners?</p></li>
+</ol>
+<p>memoryController.cc [<a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/master/src/sst/elements/memHierarchy/memoryController.cc">source</a>] should have the answers.</p>
+<p>Answers:</p>
+<ol class="simple">
+<li><p>When the memory controller recieves an event, it calls <code class="docutils literal notranslate"><span class="pre">notifyListeners</span></code>. This is defined in memoryController.h, and simply generates an object of the type seen above. Each listner receives this. The last two arguments are always READ and HIT, respectively. It achieves this by creating the notification object, then sends it using a callback.</p></li>
+</ol>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">notifyListeners</span><span class="p">(</span> <span class="n">MemEvent</span><span class="o">*</span> <span class="n">ev</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span>  <span class="o">!</span> <span class="n">listeners_</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// AFR: should this pass the base Addr?</span>
+            <span class="n">CacheListenerNotification</span> <span class="n">notify</span><span class="p">(</span><span class="n">ev</span><span class="o">-&gt;</span><span class="n">getAddr</span><span class="p">(),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">getAddr</span><span class="p">(),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">getVirtualAddress</span><span class="p">(),</span>
+                        <span class="n">ev</span><span class="o">-&gt;</span><span class="n">getInstructionPointer</span><span class="p">(),</span> <span class="n">ev</span><span class="o">-&gt;</span><span class="n">getSize</span><span class="p">(),</span> <span class="n">READ</span><span class="p">,</span> <span class="n">HIT</span><span class="p">);</span>
+
+            <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">listeners_</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">listeners_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">notifyAccess</span><span class="p">(</span><span class="n">notify</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>The listener is attached to the memory controller, not the cache.</p></li>
+<li><p>Prefetches are probably included, as every event received by the controller is sent to listeners.</p></li>
+<li><p>Yes. Not sure about the limit though.</p></li>
+</ol>
+<p>More questions:</p>
+<ol class="simple">
+<li><p>How do we send information back to the component? Answer: A callback is registered when the listener is created. The cassini strideprefetcher, for instance, uses this to send new memory events back to the controller, which are prefetch events.</p></li>
+<li><p>How can we use this? Answer: We’ll need to look into sending custom events, I think. TODO.</p></li>
+</ol>
 </div>
 
     <script type="text/x-thebe-config">
@@ -283,7 +329,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./phase"
+            path: "./sst"
         },
         predefinedOutput: true
     }
@@ -298,8 +344,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Phase Analysis in SST</a>
-    <a class='right-next' id="next-link" href="dhodapkar.html" title="next page">Working-Set Based Phase Analysis</a>
+    <a class='left-prev' id="prev-link" href="memevent.html" title="previous page">MemEvent objects</a>
+    <a class='right-next' id="next-link" href="../errata/pdlag.html" title="next page">Phase Detection Lag</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro to Phase Analysis &#8212; Phase Analysis in SST</title>
+    <title>MemEvent objects &#8212; Phase Analysis in SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,8 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working-Set Based Phase Analysis" href="dhodapkar.html" />
-    <link rel="prev" title="Phase Analysis in SST" href="../intro.html" />
+    <link rel="next" title="Cache Listeners" href="listeners.html" />
+    <link rel="prev" title="SST’s MemHierarchy Library" href="memhierarchy.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -100,14 +100,14 @@
   Phase Analysis
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../phase/intro.html">
    Intro to Phase Analysis
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dhodapkar.html">
+  <a class="reference internal" href="../phase/dhodapkar.html">
    Working-Set Based Phase Analysis
   </a>
  </li>
@@ -117,24 +117,24 @@
   SST
  </span>
 </p>
-<ul class="nav sidenav_l1">
+<ul class="current nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/overview.html">
+  <a class="reference internal" href="overview.html">
    SST Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memhierarchy.html">
+  <a class="reference internal" href="memhierarchy.html">
    SST’s MemHierarchy Library
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memevent.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    MemEvent objects
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/listeners.html">
+  <a class="reference internal" href="listeners.html">
    Cache Listeners
   </a>
  </li>
@@ -217,7 +217,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/phase/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/sst/memevent.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -237,7 +237,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fphase/intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fsst/memevent.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -265,9 +265,41 @@
         
               <div>
                 
-  <div class="section" id="intro-to-phase-analysis">
-<h1>Intro to Phase Analysis<a class="headerlink" href="#intro-to-phase-analysis" title="Permalink to this headline">¶</a></h1>
-<p>We will introduce the formal problem of phase detection as described by Hind et. al., and explain the uses of this concept.</p>
+  <div class="section" id="memevent-objects">
+<h1>MemEvent objects<a class="headerlink" href="#memevent-objects" title="Permalink to this headline">¶</a></h1>
+<p>SST’s MemHierarchy element implements objects like caches and memory controllers. The interface for these objects are the MemEvent and MemEventBase objects. It is useful to know what these are, but they are not part of the interface to cache listeners, which is an important distinction. So, while it is possible to get things like the addresses in the listeners, it is not possible to get the prefetch bool. The interface to CacheListener is described in the next chapter.</p>
+<p>If a phase analysis algorithm arises that needs information not in that interface, we will need to talk to SST about changing the interface to CacheListener.</p>
+<p>The memEventBase object [<a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/master/src/sst/elements/memHierarchy/memEventBase.h">source</a>] contains the following fields:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>    <span class="n">id_type</span>         <span class="n">eventID_</span><span class="p">;</span>           <span class="c1">// Unique ID for this event</span>
+    <span class="n">id_type</span>         <span class="n">responseToID_</span><span class="p">;</span>      <span class="c1">// For responses, holds the ID to which this event matches</span>
+    <span class="n">string</span>          <span class="n">src_</span><span class="p">;</span>               <span class="c1">// Source ID</span>
+    <span class="n">string</span>          <span class="n">dst_</span><span class="p">;</span>               <span class="c1">// Destination ID</span>
+    <span class="n">string</span>          <span class="n">rqstr_</span><span class="p">;</span>             <span class="c1">// Cache that originated this request</span>
+    <span class="n">Command</span>         <span class="n">cmd_</span><span class="p">;</span>               <span class="c1">// Command</span>
+    <span class="kt">uint32_t</span>        <span class="n">flags_</span><span class="p">;</span>
+    <span class="kt">uint32_t</span>        <span class="n">memFlags_</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>As you can see, this does not contain the information needed by most phase detection algorithms,
+such as the address we want to read from or write to! For this, we will need the memEvent object [<a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/master/src/sst/elements/memHierarchy/memEventBase.h">source</a>], which extends memEventBase with the following fields:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span>    <span class="kt">uint32_t</span>        <span class="n">size_</span><span class="p">;</span>              <span class="c1">// Size in bytes that are being requested</span>
+    <span class="n">Addr</span>            <span class="n">addr_</span><span class="p">;</span>              <span class="c1">// Address</span>
+    <span class="n">Addr</span>            <span class="n">baseAddr_</span><span class="p">;</span>          <span class="c1">// Base (line) address</span>
+    <span class="kt">bool</span>            <span class="n">addrGlobal_</span><span class="p">;</span>        <span class="c1">// Whether address is a local or global address</span>
+    <span class="n">MemEvent</span><span class="o">*</span>       <span class="n">NACKedEvent_</span><span class="p">;</span>       <span class="c1">// For a NACK, pointer to the NACKed event</span>
+    <span class="kt">int</span>             <span class="n">retries_</span><span class="p">;</span>           <span class="c1">// For NACKed events, how many times a retry has been sent</span>
+    <span class="n">dataVec</span>         <span class="n">payload_</span><span class="p">;</span>           <span class="c1">// Data</span>
+    <span class="kt">bool</span>            <span class="n">prefetch_</span><span class="p">;</span>          <span class="c1">// Whether this request came from a prefetcher</span>
+    <span class="kt">bool</span>            <span class="n">blocked_</span><span class="p">;</span>           <span class="c1">// Whether this request blocked for another pending request (for profiling) TODO move to mshrs</span>
+    <span class="kt">bool</span>            <span class="n">dirty_</span><span class="p">;</span>             <span class="c1">// For a replacement, whether the data is dirty or not</span>
+    <span class="kt">bool</span>            <span class="n">isEvict_</span><span class="p">;</span>           <span class="c1">// Whether an event is an eviction</span>
+    <span class="n">Addr</span>            <span class="n">instPtr_</span><span class="p">;</span>           <span class="c1">// Instruction pointer associated with the request</span>
+    <span class="n">Addr</span>            <span class="n">vAddr_</span><span class="p">;</span>             <span class="c1">// Virtual address associated with the request</span>
+    <span class="kt">bool</span>            <span class="n">inProgress_</span><span class="p">;</span>        <span class="c1">// Whether this request is currently being handled, if in MSHR TODO move to mshrs</span>
+</pre></div>
+</div>
+<p>Alright, now we see the information we may need to better do phase ananlysis. In particular, the fields <code class="docutils literal notranslate"><span class="pre">addr_</span></code>, <code class="docutils literal notranslate"><span class="pre">baseAddr_</span></code>, and <code class="docutils literal notranslate"><span class="pre">instrPtr_</span></code>. Ok, so we know we’ll want to take a look at these objects as they move through the memory hierarchy. How will we get access to them?</p>
+<p>SST caches allow objects to register as listeners, so that they recieve information on what the cache is doing. We should check out what that interface looks like. It is specified in cacheListener.h</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -283,7 +315,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./phase"
+            path: "./sst"
         },
         predefinedOutput: true
     }
@@ -298,8 +330,8 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Phase Analysis in SST</a>
-    <a class='right-next' id="next-link" href="dhodapkar.html" title="next page">Working-Set Based Phase Analysis</a>
+    <a class='left-prev' id="prev-link" href="memhierarchy.html" title="previous page">SST’s MemHierarchy Library</a>
+    <a class='right-next' id="next-link" href="listeners.html" title="next page">Cache Listeners</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">

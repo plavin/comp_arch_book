@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intro to Phase Analysis &#8212; Phase Analysis in SST</title>
+    <title>Cache Listeners in SST &#8212; Phase Analysis in SST</title>
     
   <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
 
@@ -57,8 +57,6 @@
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Working-Set Based Phase Analysis" href="dhodapkar.html" />
-    <link rel="prev" title="Phase Analysis in SST" href="../intro.html" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
@@ -100,14 +98,14 @@
   Phase Analysis
  </span>
 </p>
-<ul class="current nav sidenav_l1">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../phase/intro.html">
    Intro to Phase Analysis
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dhodapkar.html">
+  <a class="reference internal" href="../phase/dhodapkar.html">
    Working-Set Based Phase Analysis
   </a>
  </li>
@@ -119,23 +117,13 @@
 </p>
 <ul class="nav sidenav_l1">
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/overview.html">
+  <a class="reference internal" href="overview.html">
    SST Overview
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memhierarchy.html">
+  <a class="reference internal" href="memhierarchy.html">
    SST’s MemHierarchy Library
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sst/memevent.html">
-   MemEvent objects
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="../sst/listeners.html">
-   Cache Listeners
   </a>
  </li>
 </ul>
@@ -217,7 +205,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/phase/intro.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/sst/lister.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -237,7 +225,7 @@
                 data-toggle="tooltip" data-placement="left" title="Source repository"><i
                     class="fab fa-github"></i>repository</button></a>
         <a class="issues-button"
-            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fphase/intro.html&body=Your%20issue%20content%20here."><button
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fsst/lister.html&body=Your%20issue%20content%20here."><button
                 type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
                 title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
         
@@ -265,9 +253,10 @@
         
               <div>
                 
-  <div class="section" id="intro-to-phase-analysis">
-<h1>Intro to Phase Analysis<a class="headerlink" href="#intro-to-phase-analysis" title="Permalink to this headline">¶</a></h1>
-<p>We will introduce the formal problem of phase detection as described by Hind et. al., and explain the uses of this concept.</p>
+  <div class="section" id="cache-listeners-in-sst">
+<h1>Cache Listeners in SST<a class="headerlink" href="#cache-listeners-in-sst" title="Permalink to this headline">¶</a></h1>
+<p>SST’s MemHierarchy element implements objects like caches and memory conttrollers. The interface for these objects are the MemEvent and MemEventBase objects.</p>
+<p>The MemEvent object [<a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/master/src/sst/elements/memHierarchy/memEventBase.h">source</a>].</p>
 </div>
 
     <script type="text/x-thebe-config">
@@ -283,7 +272,7 @@
         },
         kernelOptions: {
             kernelName: "python3",
-            path: "./phase"
+            path: "./sst"
         },
         predefinedOutput: true
     }
@@ -298,8 +287,6 @@
     
     <div class='prev-next-bottom'>
         
-    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">Phase Analysis in SST</a>
-    <a class='right-next' id="next-link" href="dhodapkar.html" title="next page">Working-Set Based Phase Analysis</a>
 
     </div>
     <footer class="footer mt-5 mt-md-0">
