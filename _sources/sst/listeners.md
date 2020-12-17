@@ -51,3 +51,17 @@ More questions:
 2. How can we use this? Answer: We'll need to look into sending custom events, I think. TODO. 
 
 
+Notes on custom commands:
+* Using custom commands with memoryController.cc requires loading a subcomponent that exports a function that can be used to handle those events. This subcomponent takes two callbacks, readdata and writedata [link to source](https://github.com/sstsimulator/sst-elements/blob/b2d4a41f1cd152ac96c9eca54000980a26a757d3/src/sst/elements/memHierarchy/memoryController.cc#L310).
+
+* memoryCacheController.h specifies that readdata and writedata can be called to update memory values. While custom commands may be of use to use for sending information to the memory controller about phases, I'm not sure we will need to call those functions. 
+
+* You only get one custom handler though.
+
+* So... what can we do with this custom handler? Not much, since it doesn't have access to the data in the cache controller component. We'll need to extend the cachecontroller object so that we can actually change out the models. This is not surprising, as this is a pretty big change. 
+
+Plan:
+
+1. Create a listener that can do phase detection on the information available to listeners.
+
+2. Determine how we can get more information into the phase analysis tool, such as branch misprediction information. 

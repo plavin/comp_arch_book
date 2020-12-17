@@ -111,6 +111,11 @@
    Working-Set Based Phase Analysis
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../phase/attribution.html">
+   Phase Attribution
+  </a>
+ </li>
 </ul>
 <p class="caption collapsible-parent">
  <span class="caption-text">
@@ -313,6 +318,18 @@
 <ol class="simple">
 <li><p>How do we send information back to the component? Answer: A callback is registered when the listener is created. The cassini strideprefetcher, for instance, uses this to send new memory events back to the controller, which are prefetch events.</p></li>
 <li><p>How can we use this? Answer: We’ll need to look into sending custom events, I think. TODO.</p></li>
+</ol>
+<p>Notes on custom commands:</p>
+<ul class="simple">
+<li><p>Using custom commands with memoryController.cc requires loading a subcomponent that exports a function that can be used to handle those events. This subcomponent takes two callbacks, readdata and writedata <a class="reference external" href="https://github.com/sstsimulator/sst-elements/blob/b2d4a41f1cd152ac96c9eca54000980a26a757d3/src/sst/elements/memHierarchy/memoryController.cc#L310">link to source</a>.</p></li>
+<li><p>memoryCacheController.h specifies that readdata and writedata can be called to update memory values. While custom commands may be of use to use for sending information to the memory controller about phases, I’m not sure we will need to call those functions.</p></li>
+<li><p>You only get one custom handler though.</p></li>
+<li><p>So… what can we do with this custom handler? Not much, since it doesn’t have access to the data in the cache controller component. We’ll need to extend the cachecontroller object so that we can actually change out the models. This is not surprising, as this is a pretty big change.</p></li>
+</ul>
+<p>Plan:</p>
+<ol class="simple">
+<li><p>Create a listener that can do phase detection on the information available to listeners.</p></li>
+<li><p>Determine how we can get more information into the phase analysis tool, such as branch misprediction information.</p></li>
 </ol>
 </div>
 

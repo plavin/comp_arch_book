@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phase Attribution &#8212; Phase Analysis in SST</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="SST Overview" href="../sst/overview.html" />
+    <link rel="prev" title="Working-Set Based Phase Analysis" href="dhodapkar.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/logo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Phase Analysis in SST</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../intro.html">
+   Phase Analysis in SST
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Phase Analysis
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Intro to Phase Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dhodapkar.html">
+   Working-Set Based Phase Analysis
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Phase Attribution
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  SST
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/overview.html">
+   SST Overview
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/memhierarchy.html">
+   SST’s MemHierarchy Library
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/memevent.html">
+   MemEvent objects
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../sst/listeners.html">
+   Cache Listeners
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Errata
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../errata/pdlag.html">
+   Phase Detection Lag
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../errata/modelsize.html">
+   Model Size
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Papers
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../papers/simulation.html">
+   Simulation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../papers/benchmarking.html">
+   Benchmarking
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../papers/phaseanalysis.html">
+   Phase Analysis
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/phase/attribution.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/plavin/comp_arch_book"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/plavin/comp_arch_book/issues/new?title=Issue%20on%20page%20%2Fphase/attribution.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-debugging-information-entry">
+   The Debugging Information Entry
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#important-tags-and-attributes">
+     Important Tags and Attributes
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#parsing-dwarf-information-with-pyelftools">
+   Parsing DWARF Information with
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     pyelftools
+    </span>
+   </code>
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#the-basic-algorithm">
+     The Basic Algorithm
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#example-run">
+     Example Run
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="phase-attribution">
+<h1>Phase Attribution<a class="headerlink" href="#phase-attribution" title="Permalink to this headline">¶</a></h1>
+<p>Once we have performed phase analysis, the natrual question is “What do these phases correspond to in the source?”
+This is the problem of <em>Phase Attribution</em>. In working set based phase analysis schemes such as ours, this is
+easy to define, as we need only look at which program counters get assigned to each phase.</p>
+<p>But how do we figure out what those program counters (PCs) correspond to? We can use debugging information
+generated by C and C++ compilers, which is in the <a class="reference external" href="http://dwarfstd.org/">DWARF</a> format on Linux<a class="footnote-reference brackets" href="#v4" id="id1">1</a>. The standard itself</p>
+<p>is somewhat long, so we’ll include just enough info here to understand how we take the PCs from a phase and attribute
+them to some function.</p>
+<p>If you want to skip the explanation here and start playing with it, you can view this algorithm implemented on Github <a class="reference external" href="https://github.com/plavin/ModelSwapping/blob/master/DWARFMap.py">here</a>. It is part of the larger project but the linked python file can be run by itself.</p>
+<p>Ok, let’s get to the explanation.</p>
+<div class="section" id="the-debugging-information-entry">
+<h2>The Debugging Information Entry<a class="headerlink" href="#the-debugging-information-entry" title="Permalink to this headline">¶</a></h2>
+<p>The Debugging Information Entry (DIE) is the basic building block of the DWARF format. Each one gets an an identifying tag (or type) and a set of attributes.
+The tags all have names that look like <code class="docutils literal notranslate"><span class="pre">DW_TAG_*</span></code>, and the attributes are named <code class="docutils literal notranslate"><span class="pre">DW_AT_*</span></code>.</p>
+<div class="section" id="important-tags-and-attributes">
+<h3>Important Tags and Attributes<a class="headerlink" href="#important-tags-and-attributes" title="Permalink to this headline">¶</a></h3>
+<p>Let’s take a look at the tags that we need to know to parse the DWARF with the pyelftools library, as well as some associated attributes.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_TAG_compile_unit</span></code>: This tag indicates that the DIE represents a complete compilation unit, such as a single <code class="docutils literal notranslate"><span class="pre">.o</span></code> file. You can expect to find one for each source file in your executable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_TAG_subprogram</span></code>: This tag is for DIEs that represent a function (or subroutine). We are concerned with the following attributes that are used with this tag:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_AT_name</span></code>: The name of the function, such as <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_AT_low_pc</span></code>: The base PC of the function. This may not be present (and if it isn’t, then the high PC will also not exist) in the case of a subroutine that is not actually implemented at this location. For instance, the DIE may describe a function that is only ever used in an inline fashion. In such cases we will only be concerned with the name attribute, as we will get the PC range elsewhere.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_AT_high_pc</span></code>: This is either an offset from the low PC, or the high PC itself. You will need to inspect further to determine which is which, but it seems gcc typically generates an offset.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_TAG_inlined_subroutine</span></code>: DIEs with this tag are generated for inlined subroutines. They will be generated at children of DIEs with the <code class="docutils literal notranslate"><span class="pre">DW_TAG_subprogram</span></code>. They will not have a <code class="docutils literal notranslate"><span class="pre">DW_AT_name</span></code> attribute, but they will have high and low PCs. These PCs will be a subset of the DIE that is the parent of this one.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">DW_AT_abstract_origin</span></code>: This is a reference to a DIE that contains the prototype of this subroutine. This is how we get the name of this function.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="parsing-dwarf-information-with-pyelftools">
+<h2>Parsing DWARF Information with <code class="docutils literal notranslate"><span class="pre">pyelftools</span></code><a class="headerlink" href="#parsing-dwarf-information-with-pyelftools" title="Permalink to this headline">¶</a></h2>
+<p>We will be using python to parse the DWARF information contained in executables. The <a class="reference external" href="https://github.com/eliben/pyelftools"><code class="docutils literal notranslate"><span class="pre">pyelftools</span></code></a> library allows us to do with with DWARF files up to DWARF 4. You can install this package with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyelftools</span></code> or <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pyelftools</span></code>.</p>
+<div class="section" id="the-basic-algorithm">
+<h3>The Basic Algorithm<a class="headerlink" href="#the-basic-algorithm" title="Permalink to this headline">¶</a></h3>
+<p>I won’t go over the finer details, but I will explain the basic algorithm that our code uses<a class="footnote-reference brackets" href="#algo" id="id2">2</a>. We can first iterate over the Compilation Units by using the <code class="docutils literal notranslate"><span class="pre">dwarfinfo.iter_CUs()</span></code>. Once we have a single CU, we can iterate over all the DIEs it contains (which will correspond to all the functions defined within that file). Iterating over DIEs in a CU is done by calling the CU’s <code class="docutils literal notranslate"><span class="pre">iter_DIEs()</span></code> method.</p>
+<p>Once we are iterating over DIEs, we’ll look at all of the ones tagged either <code class="docutils literal notranslate"><span class="pre">DW_TAG_subprogram</span></code> or <code class="docutils literal notranslate"><span class="pre">DW_TAG_inlined_subroutine</span></code>. We will then record all these ranges, and store them in a hierarcical data structure so that we can search through these ranges later.</p>
+<p>When it is time to actually determine which range a PC belongs to, we will search over all the ranges we have identified. Once we find one, we need to recursively search within that range to see if the PC was actually part of an inlined function.</p>
+</div>
+<div class="section" id="example-run">
+<h3>Example Run<a class="headerlink" href="#example-run" title="Permalink to this headline">¶</a></h3>
+<p>Let’s look at the data structure produced by this algorithm when run on a simple executable. Here is the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">main</span> <span class="p">(</span><span class="nb">int</span> <span class="n">argv</span><span class="p">,</span> <span class="n">char</span> <span class="o">**</span> <span class="n">argc</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nb">int</span> <span class="n">sz</span> <span class="o">=</span> <span class="mi">25</span><span class="p">;</span>
+    <span class="n">double</span> <span class="o">*</span><span class="n">c</span> <span class="o">=</span> <span class="p">(</span><span class="n">double</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">sz</span><span class="p">);</span>
+    <span class="n">double</span> <span class="o">*</span><span class="n">d</span> <span class="o">=</span> <span class="p">(</span><span class="n">double</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">sz</span><span class="p">);</span>
+    <span class="n">double</span> <span class="o">*</span><span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">double</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">sz</span><span class="p">);</span>
+    <span class="n">double</span> <span class="o">*</span><span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">double</span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span><span class="n">double</span><span class="p">)</span> <span class="o">*</span> <span class="n">sz</span><span class="p">);</span>
+
+   <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">sz</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+       <span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span>
+       <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">i</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="n">vadd</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">sz</span><span class="p">);</span>
+   <span class="n">vmul</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">sz</span><span class="p">);</span>
+
+   <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Result: </span><span class="si">%.2f</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">f</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The functions <code class="docutils literal notranslate"><span class="pre">vadd</span></code> and <code class="docutils literal notranslate"><span class="pre">vmul</span></code> perform elementwise vector addition and multiplication respectively. I haven’t included their defintion here as it can be done in two different ways, producing two different results.</p>
+<p>If they are defined in a separate file, it is unlikely they will be inlined. This means each function will be mapped into its own range in the address space. Below, you’ll see that the top level is labeled “unkown”. This is our catch all, so that every address will get some name when we query this data structure. Many PCs that occur when executing will fall into this range, because there are many parts of our executable that we do not have DWARF information for, such as external libraries.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>unknown [0x0 - 0xffffffffffffffff]
+  ↳ main [0x400a1d - 0x400b96]
+  ↳ vadd [0x400b96 - 0x400c0e]
+  ↳ vmul [0x400c0e - 0x400c86]
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">vadd</span></code> and <code class="docutils literal notranslate"><span class="pre">vmul</span></code> are defined in the same file, they may be inlined. If they do get inlined by the compiler, they will appear as sub-ranges of main instead of having non-overlapping ranges as above. This is represented by indentation in the output below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>unknown [0x0 - 0xffffffffffffffff]
+  ↳ main [0x400a1d - 0x400c8b]
+    ↳ vadd [0x400b75 - 0x400bf6]
+    ↳ vmul [0x400bf6 - 0x400c59]
+</pre></div>
+</div>
+<hr class="docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="v4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>This guide was written using the DWARF 4 standard. While DWARF 5 is available, it is not yet the default for gcc, and
+is not supported by the python library pyelftools, which we use for our project.</p>
+</dd>
+<dt class="label" id="algo"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>I picked up the basics of this algorithm from <a class="reference external" href="https://web.archive.org/web/20200420073800/https://blog.tartanllama.xyz/writing-a-linux-debugger-elf-dwarf/">Sy Brand’s Blog.</a> Scroll down to “Which function am I in?”</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./phase"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="dhodapkar.html" title="previous page">Working-Set Based Phase Analysis</a>
+    <a class='right-next' id="next-link" href="../sst/overview.html" title="next page">SST Overview</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Patrick Lavin<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+  </body>
+</html>
